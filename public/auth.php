@@ -5,9 +5,6 @@ try{
 		exit(0);
 	}
 
-	# Grab the GiphyGetter-Slack client info from the environment
-	$clientInfo = explode('|',getenv('GGCLIENT'));
-
 	$curl = curl_init();
 	curl_setopt_array($curl,[
 		CURLOPT_URL => "https://slack.com/api/oauth.access",
@@ -28,11 +25,12 @@ try{
 	}
 
 	header('Content-Type: text/html');
-	print 'GiphyGetter was successfully added to your Slack!';
-	http_response_code(200);
+	header('Location: https://github.com/LegendaryLinux/GiphyGetter-Slack');
 	exit(0);
 
 }catch(Throwable $T){
-	error_log($T->getMessage());
-	exit(0);
+	$file = basename($T->getFile());
+	error_log("[$file:{$T->getLine()}] {$T->getMessage()}");
+	http_response_code(500);
+	exit(1);
 }
