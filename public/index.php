@@ -5,7 +5,7 @@ require_once(dirname(__DIR__).'/GiphyGetter.php');
 if(empty($_POST)){http_response_code(400); exit(0);}
 
 try{
-	$giphyGetter = new GiphyGetter\GiphyGetter(null,'/var/tmp/');
+	$giphyGetter = new GiphyGetter\GiphyGetter(getenv('GG_GIPHY_API_KEY'),'/var/tmp/');
 	$giphyGetter->setImageSize('fixed_height');
 }catch(Throwable $T){
 	error_log($T->getMessage());
